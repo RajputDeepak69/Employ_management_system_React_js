@@ -1,27 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import Login from './Components/Auth/Login'
 import EmployDashboard from './Components/Dashboard/EmployDashboard'
 import AdminDashboard from './Components/Dashboard/AdminDashboard'
-import { Authcontext } from './Context/Authprovider'
+import { Authcontext } from './Context/Authcontext'
 
 const   App = ()=> {
 
-const[user, setUser]  = useState(null)
-const[loggedInUserData, setloggedInUserData] = useState(null)
-const [authdata, setUserData] = useContext(Authcontext)
-
-useEffect(()=>{
-  const LoggedInUser = localStorage.getItem('loggedInUser')
-  //  console.log(LoggedInUser)
-  if(LoggedInUser){
-    // console.log("user logged in")
-
-    const UserData = JSON.parse(LoggedInUser)
-    setUser({role: UserData.role})
-    setloggedInUserData(UserData.data)
-    // console.log(UserData)
+const [savedSession] = useState(() => {
+  try {
+    return JSON.parse(localStorage.getItem('loggedInUser'))
+  } catch {
+    return null
   }
-},[])
+})
+const [user, setUser] = useState(() => savedSession ? { role: savedSession.role } : null)
+const [loggedInUserData, setLoggedInUserData] = useState(() => savedSession?.data ?? null)
+const [authdata] = useContext(Authcontext)
 
 // console.log(authdata)
 
@@ -45,14 +39,14 @@ useEffect(()=>{
            email: 'admin@example.com',
            role: 'admin'
          }
-         setloggedInUserData(admin)
+         setLoggedInUserData(admin)
          localStorage.setItem('loggedInUser',JSON.stringify({role:'admin', data:admin}))
 
       }else if(Array.isArray(authdata)){
         const employee = authdata.find((e) => e.email.toLowerCase() === normalizedEmail && e.password === password)
         if(employee){
           setUser({role:'employee'})
-          setloggedInUserData(employee)
+          setLoggedInUserData(employee)
           localStorage.setItem('loggedInUser',JSON.stringify({role:'employee', data:employee}))
         } else {
           alert('Invalid email or password')

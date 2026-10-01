@@ -1,4 +1,3 @@
-import React from 'react'
 
 const Header = ({ data, changeUser }) => {
   const logout = () => {

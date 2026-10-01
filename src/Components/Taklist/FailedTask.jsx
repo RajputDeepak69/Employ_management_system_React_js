@@ -1,4 +1,3 @@
-import React from 'react'
 
 const FailedTask = ({ data }) => {
   return (

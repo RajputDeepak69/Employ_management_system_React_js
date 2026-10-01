@@ -1,4 +1,3 @@
-import React from 'react'
 import AcceptTask from './AcceptTask'
 import NewTask from './NewTask'
 import CompleteTask from './CompleteTask'

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Authcontext } from '../../Context/Authprovider'
+import { useContext } from 'react'
+import { Authcontext } from '../../Context/Authcontext'
 
 const AllTask = () => {
   const [UserData] = useContext(Authcontext)
